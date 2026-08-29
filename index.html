@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="社労士試験対策｜労働基準法の数字要件を自己採点式で高速反復するドリル。あやふやだった問題は自動で再出題されます。">
+<meta name="theme-color" content="#26417A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="労基法ドリル">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%F0%9F%93%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{color-scheme:light dark;}
+  html,body{margin:0;padding:0;}
+  img{max-width:100%;}
+  [hidden]{display:none!important;}
+</style>
+<title>労基法 数字ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F3F4F8;
+  --surface:#FFFFFF;
+  --surface-2:#E9EBF2;
+  --ink:#151A22;
+  --ink-2:#4C5566;
+  --ink-3:#7A8397;
+  --line:#DCDFE9;
+  --line-2:#BFC5D4;
+  --ai:#26417A;
+  --ai-soft:#E3E9F5;
+  --mark:#E8B33A;
+  --mark-soft:#FBF1D8;
+  --ok:#2A7D5F;
+  --ok-soft:#E1F0E9;
+  --hm:#B4553C;
+  --hm-soft:#F8E7E1;
+  --shadow:0 1px 2px rgba(21,26,34,.06), 0 12px 32px -20px rgba(21,26,34,.4);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11141A;
+    --surface:#1A1E27;
+    --surface-2:#232833;
+    --ink:#E8EBF2;
+    --ink-2:#AEB6C6;
+    --ink-3:#7E8799;
+    --line:#2A303C;
+    --line-2:#3B4353;
+    --ai:#88A6E0;
+    --ai-soft:#1D2536;
+    --mark:#F0C463;
+    --mark-soft:#2C2617;
+    --ok:#67C39D;
+    --ok-soft:#16291F;
+    --hm:#E29179;
+    --hm-soft:#2C1D18;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 32px -20px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11141A;
+  --surface:#1A1E27;
+  --surface-2:#232833;
+  --ink:#E8EBF2;
+  --ink-2:#AEB6C6;
+  --ink-3:#7E8799;
+  --line:#2A303C;
+  --line-2:#3B4353;
+  --ai:#88A6E0;
+  --ai-soft:#1D2536;
+  --mark:#F0C463;
+  --mark-soft:#2C2617;
+  --ok:#67C39D;
+  --ok-soft:#16291F;
+  --hm:#E29179;
+  --hm-soft:#2C1D18;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 32px -20px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;
+}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none;}
+button:focus-visible,select:focus-visible{outline:2px solid var(--ai);outline-offset:2px;}
+
+/* ---- progress ---- */
+#bar{height:3px;background:var(--surface-2);flex:none;}
+#bar i{display:block;height:100%;background:var(--ai);width:0;transition:width .3s ease;}
+
+/* ---- top ---- */
+header{
+  flex:none;display:flex;align-items:center;gap:12px;
+  padding:12px 18px;border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+.brand{
+  font-family:"Shippori Mincho",serif;font-weight:700;font-size:15px;
+  letter-spacing:.02em;white-space:nowrap;
+}
+.brand em{font-style:normal;color:var(--ai);}
+.counts{
+  margin-inline-start:auto;display:flex;gap:8px;align-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;
+  font-variant-numeric:tabular-nums;color:var(--ink-3);
+}
+.counts b{color:var(--ok);font-weight:600;}
+.counts s{color:var(--hm);font-weight:600;text-decoration:none;}
+.icobtn{
+  padding:5px 10px;border:1px solid var(--line-2);border-radius:5px;
+  font-size:11.5px;color:var(--ink-2);white-space:nowrap;
+}
+.icobtn:hover{border-color:var(--ai);color:var(--ai);}
+
+/* ---- setup panel ---- */
+#setup{
+  flex:none;background:var(--surface);border-bottom:1px solid var(--line);
+  padding:14px 18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+}
+#setup[hidden]{display:none;}
+.chip{
+  padding:6px 12px;border:1px solid var(--line-2);border-radius:999px;
+  font-size:12.5px;color:var(--ink-2);white-space:nowrap;
+}
+.chip[aria-pressed="true"]{
+  background:var(--ai);border-color:var(--ai);color:#fff;font-weight:500;
+}
+:root[data-theme="dark"] .chip[aria-pressed="true"],
+html:not([data-theme="light"]) .chip[aria-pressed="true"]{color:var(--bg);}
+.chip small{font-family:"JetBrains Mono",monospace;font-size:10.5px;opacity:.65;margin-inline-start:5px;}
+.setup-label{
+  font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+  color:var(--ink-3);text-transform:uppercase;width:100%;margin-bottom:-2px;
+}
+
+/* ---- stage ---- */
+main{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:24px 18px;
+}
+.stage{width:100%;max-width:600px;}
+
+.cat{
+  display:inline-block;font-family:"JetBrains Mono",monospace;
+  font-size:10.5px;letter-spacing:.1em;padding:3px 9px;border-radius:3px;
+  background:var(--ai-soft);color:var(--ai);font-weight:600;margin-bottom:16px;
+}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  box-shadow:var(--shadow);padding:30px 30px 26px;
+}
+@media (max-width:520px){.card{padding:24px 20px 20px;}}
+
+.q{
+  font-size:19px;line-height:1.75;font-weight:500;margin:0;
+  text-wrap:pretty;
+}
+@media (max-width:520px){.q{font-size:17.5px;}}
+
+.ansbox{
+  margin-top:22px;padding-top:22px;border-top:1px dashed var(--line-2);
+}
+.ansbox[hidden]{display:none;}
+.a{
+  font-family:"Shippori Mincho","Hiragino Mincho ProN",serif;
+  font-size:25px;font-weight:700;line-height:1.6;margin:0;
+  color:var(--ink);text-wrap:pretty;
+  background:linear-gradient(transparent 62%, var(--mark-soft) 62%);
+  display:inline;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+@media (max-width:520px){.a{font-size:21px;}}
+.note{
+  margin:16px 0 0;font-size:13.5px;line-height:1.75;color:var(--ink-2);
+  padding-inline-start:12px;border-inline-start:2px solid var(--mark);
+}
+.ref{
+  margin-top:14px;font-family:"JetBrains Mono",monospace;
+  font-size:11px;color:var(--ink-3);letter-spacing:.04em;
+}
+
+/* ---- controls ---- */
+.controls{margin-top:18px;display:flex;gap:10px;}
+.btn{
+  flex:1;padding:15px 16px;border-radius:6px;font-size:15px;font-weight:700;
+  border:1px solid transparent;transition:transform .06s ease;
+  display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.4;
+}
+.btn:active{transform:translateY(1px);}
+.btn kbd{
+  font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:400;
+  opacity:.6;border:none;background:none;letter-spacing:.06em;
+}
+.btn-main{background:var(--ai);color:#fff;}
+.btn-main:hover{filter:brightness(1.1);}
+html:not([data-theme="light"]) .btn-main,:root[data-theme="dark"] .btn-main{color:var(--bg);}
+.btn-ok{background:var(--ok-soft);color:var(--ok);border-color:var(--ok);}
+.btn-hm{background:var(--hm-soft);color:var(--hm);border-color:var(--hm);}
+.btn-ok:hover,.btn-hm:hover{filter:brightness(.97);}
+
+.hint{
+  margin-top:14px;text-align:center;font-size:11.5px;color:var(--ink-3);
+  font-family:"JetBrains Mono",monospace;letter-spacing:.03em;
+}
+@media (hover:none){.hint,.btn kbd{display:none;}}
+
+/* ---- result ---- */
+.result{
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  box-shadow:var(--shadow);padding:32px 30px;
+}
+.result h2{
+  font-family:"Shippori Mincho",serif;font-size:22px;margin:0 0 4px;font-weight:700;
+}
+.result .sum{color:var(--ink-2);font-size:14px;margin:0 0 22px;}
+.score{
+  display:flex;gap:26px;padding:18px 0;margin-bottom:22px;
+  border-block:1px solid var(--line);
+}
+.score div{display:flex;flex-direction:column;}
+.score .n{
+  font-family:"JetBrains Mono",monospace;font-size:27px;font-weight:600;
+  font-variant-numeric:tabular-nums;line-height:1.2;
+}
+.score .l{font-size:11px;color:var(--ink-3);letter-spacing:.06em;}
+.score .ok .n{color:var(--ok);}
+.score .hm .n{color:var(--hm);}
+.weaklist{margin:0 0 22px;padding:0;list-style:none;max-height:270px;overflow-y:auto;}
+.weaklist li{
+  padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.65;
+}
+.weaklist li:last-child{border-bottom:none;}
+.weaklist b{display:block;font-weight:500;color:var(--ink-2);font-size:13.5px;}
+.weaklist span{
+  font-family:"Shippori Mincho",serif;font-weight:700;font-size:15.5px;color:var(--ink);
+}
+.result .controls .btn{padding:13px 16px;font-size:14px;}
+.btn-ghost{border-color:var(--line-2);color:var(--ink-2);}
+.btn-ghost:hover{border-color:var(--ai);color:var(--ai);}
+
+footer{
+  flex:none;padding:14px 18px 20px;text-align:center;
+  font-size:11px;color:var(--ink-3);line-height:1.7;
+}
+</style></head>
+<body>
+<div id="bar"><i></i></div>
+
+<header>
+  <div class="brand">労基法 <em>数字ドリル</em></div>
+  <div class="counts">
+    <b id="cOk">0</b><span>/</span><s id="cHm">0</s>
+    <span id="cLeft" style="margin-inline-start:4px;"></span>
+  </div>
+  <button class="icobtn" id="btnSetup">出題設定</button>
+</header>
+
+<div id="setup" hidden>
+  <div class="setup-label">分野を選ぶ</div>
+  <div id="cats" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+  <div class="setup-label" style="margin-top:8px;">モード</div>
+  <button class="chip" id="mWeak" aria-pressed="false">あやふやだった問題のみ<small id="weakN">0</small></button>
+  <button class="chip" id="mShuffle" aria-pressed="true">シャッフル</button>
+  <button class="icobtn" id="btnApply" style="margin-inline-start:auto;padding:8px 16px;border-color:var(--ai);color:var(--ai);font-weight:700;">この条件で始める</button>
+</div>
+
+<main><div class="stage" id="stage"></div></main>
+
+<footer>
+  自己採点式・全<span id="totalN"></span>問／2026年8月時点の条文にもとづく学習用教材です。実務判断は必ず条文と最新の通達をご確認ください。
+</footer>
+
+<script>
+"use strict";
+
+const DATA = [
+ // 労働時間・休憩・休日
+ {c:"労働時間",q:"法定労働時間は、1日および1週間で何時間か。",a:"1日8時間／1週40時間",r:"法32条"},
+ {c:"労働時間",q:"特例事業（商業・映画演劇業・保健衛生業・接客娯楽業）の週の法定労働時間と、その適用要件は。",a:"週44時間／常時10人未満",n:"映画製作の事業は除かれる。1日8時間は変わらない。",r:"法40条・則25条の2"},
+ {c:"労働時間",q:"休憩を45分以上与えなければならないのは、労働時間が何時間を超える場合か。",a:"6時間を超える場合",r:"法34条"},
+ {c:"労働時間",q:"休憩を1時間以上与えなければならないのは、労働時間が何時間を超える場合か。",a:"8時間を超える場合",r:"法34条"},
+ {c:"労働時間",q:"使用者が与えるべき休日の原則と、その例外は。",a:"毎週少なくとも1回／4週を通じ4日",r:"法35条"},
+ {c:"労働時間",q:"1か月単位の変形労働時間制の変形期間の上限は。",a:"1か月以内",r:"法32条の2"},
+ {c:"労働時間",q:"1年単位の変形労働時間制の対象期間は。",a:"1か月を超え1年以内",r:"法32条の4"},
+ {c:"労働時間",q:"1年単位の変形労働時間制における、1日および1週の労働時間の限度は。",a:"1日10時間／1週52時間",r:"則12条の4"},
+ {c:"労働時間",q:"1年単位の変形労働時間制で対象期間が3か月を超える場合、労働日数の限度は。",a:"1年当たり280日",r:"則12条の4"},
+ {c:"労働時間",q:"1週間単位の非定型的変形労働時間制の対象事業の規模と、1日の労働時間の上限は。",a:"常時30人未満／1日10時間",n:"対象は小売業・旅館・料理店・飲食店。",r:"法32条の5"},
+ {c:"労働時間",q:"フレックスタイム制の清算期間の上限は。",a:"3か月以内",n:"1か月を超える場合は労使協定の届出が必要。",r:"法32条の3"},
+
+ // 時間外・割増賃金
+ {c:"割増賃金",q:"時間外労働の割増賃金率は。",a:"2割5分以上",r:"法37条"},
+ {c:"割増賃金",q:"休日労働の割増賃金率は。",a:"3割5分以上",r:"法37条"},
+ {c:"割増賃金",q:"深夜労働の割増賃金率と、深夜の時間帯は。",a:"2割5分以上／午後10時〜午前5時",r:"法37条"},
+ {c:"割増賃金",q:"1か月に何時間を超える時間外労働で、割増率が何割以上になるか。",a:"60時間超／5割以上",r:"法37条1項但書"},
+ {c:"割増賃金",q:"36協定における時間外労働の限度時間（原則）は、月・年それぞれ何時間か。",a:"月45時間／年360時間",r:"法36条4項"},
+ {c:"割増賃金",q:"1年単位の変形労働時間制（対象期間3か月超）の場合の限度時間は、月・年それぞれ何時間か。",a:"月42時間／年320時間",r:"法36条4項"},
+ {c:"割増賃金",q:"特別条項付き36協定における、1年の時間外労働の上限は。",a:"720時間以内",r:"法36条5項"},
+ {c:"割増賃金",q:"特別条項において、休日労働を含めた1か月の上限は。",a:"100時間未満",r:"法36条6項"},
+ {c:"割増賃金",q:"特別条項において、休日労働を含めた複数月平均の上限は。",a:"2〜6か月平均で80時間以内",r:"法36条6項"},
+ {c:"割増賃金",q:"月45時間を超えることができるのは、1年について何回までか。",a:"年6回まで",r:"法36条5項"},
+
+ // 年次有給休暇
+ {c:"年次有給休暇",q:"年次有給休暇が発生する2つの要件は。",a:"6か月継続勤務／全労働日の8割以上出勤",r:"法39条1項"},
+ {c:"年次有給休暇",q:"雇入れの日から6か月経過時に付与される日数は。",a:"10労働日",r:"法39条1項"},
+ {c:"年次有給休暇",q:"継続勤務1年6か月・2年6か月時点の付与日数は。",a:"11日／12日",r:"法39条2項"},
+ {c:"年次有給休暇",q:"継続勤務3年6か月・4年6か月時点の付与日数は。",a:"14日／16日",n:"3年6か月以降は毎年2日ずつ加算される。",r:"法39条2項"},
+ {c:"年次有給休暇",q:"継続勤務5年6か月・6年6か月以上の付与日数は。",a:"18日／20日",n:"20日が上限。",r:"法39条2項"},
+ {c:"年次有給休暇",q:"年次有給休暇の請求権の時効は。",a:"2年",r:"法115条"},
+ {c:"年次有給休暇",q:"時間単位年休として付与できるのは、1年について何日分までか。",a:"5日以内",r:"法39条4項"},
+ {c:"年次有給休暇",q:"計画的付与の対象とできるのは、何日を超える部分か。",a:"5日を超える部分",n:"5日は必ず労働者の自由な取得に残す。",r:"法39条6項"},
+ {c:"年次有給休暇",q:"使用者による年5日の時季指定義務の対象となる労働者は。",a:"年10日以上の年休が付与される労働者",r:"法39条7項"},
+
+ // 賃金
+ {c:"賃金",q:"賃金支払の5原則をすべて挙げよ。",a:"通貨・直接・全額・毎月1回以上・一定期日",r:"法24条"},
+ {c:"賃金",q:"使用者の責に帰すべき事由による休業の場合、支払うべき休業手当の額は。",a:"平均賃金の100分の60以上",r:"法26条"},
+ {c:"賃金",q:"平均賃金の算定期間は。",a:"算定事由発生日以前3か月間",n:"賃金締切日がある場合は直前の締切日から起算する。",r:"法12条"},
+ {c:"賃金",q:"賃金請求権の消滅時効は（本則と当分の間の措置）。",a:"本則5年／当分の間3年",r:"法115条・附則143条"},
+ {c:"賃金",q:"退職手当の請求権の消滅時効は。",a:"5年",r:"法115条"},
+ {c:"賃金",q:"災害補償その他の請求権の消滅時効は。",a:"2年",r:"法115条"},
+
+ // 解雇・退職
+ {c:"解雇・退職",q:"解雇しようとする場合の予告期間と、予告に代わる手当の額は。",a:"30日前の予告／30日分以上の平均賃金",r:"法20条"},
+ {c:"解雇・退職",q:"業務上の傷病による解雇制限の期間は。",a:"療養のため休業する期間およびその後30日間",r:"法19条"},
+ {c:"解雇・退職",q:"産前産後による解雇制限の期間は。",a:"産前産後の休業期間およびその後30日間",r:"法19条"},
+ {c:"解雇・退職",q:"打切補償の額と、その要件となる療養期間は。",a:"平均賃金の1200日分／療養開始後3年経過",r:"法81条"},
+ {c:"解雇・退職",q:"試の使用期間中の者について、解雇予告が必要となるのは何日を超えたときか。",a:"14日を超えて引き続き使用されたとき",r:"法21条"},
+ {c:"解雇・退職",q:"日日雇い入れられる者について、解雇予告が必要となるのはいつからか。",a:"1か月を超えて引き続き使用されたとき",r:"法21条"},
+ {c:"解雇・退職",q:"期間を定めて使用される者のうち、解雇予告が不要なのは何か月以内の契約か。",a:"2か月以内",r:"法21条"},
+ {c:"解雇・退職",q:"季節的業務に使用される者のうち、解雇予告が不要なのは何か月以内の契約か。",a:"4か月以内",r:"法21条"},
+
+ // 労働契約
+ {c:"労働契約",q:"有期労働契約の契約期間の上限（原則）は。",a:"3年",r:"法14条"},
+ {c:"労働契約",q:"有期労働契約の契約期間が5年まで認められる2つの場合は。",a:"高度の専門的知識等を有する者／満60歳以上の者",r:"法14条"},
+ {c:"労働契約",q:"明示された労働条件が事実と相違するため契約を解除した場合、帰郷旅費が必要となるのは何日以内の帰郷か。",a:"契約解除の日から14日以内",r:"法15条3項"},
+ {c:"労働契約",q:"労働契約の不履行について、あらかじめ定めることが禁止されているものは。",a:"違約金・損害賠償額の予定",n:"実損害の賠償請求まで禁じるものではない。",r:"法16条"},
+
+ // 年少者・妊産婦
+ {c:"年少者・妊産婦",q:"労働者として使用できる最低年齢の原則は。",a:"満15歳に達した日以後の最初の3月31日が終了するまで使用禁止",r:"法56条"},
+ {c:"年少者・妊産婦",q:"非工業的事業において、行政官庁の許可により使用できる児童の年齢は。",a:"満13歳以上",n:"映画製作・演劇の事業は満13歳未満でも許可されうる。",r:"法56条2項"},
+ {c:"年少者・妊産婦",q:"使用が認められた児童の労働時間の上限は。",a:"修学時間を通算して1日7時間・1週40時間",r:"法60条2項"},
+ {c:"年少者・妊産婦",q:"満18歳未満の者の深夜業が禁止される時間帯は。",a:"午後10時〜午前5時",n:"厚生労働大臣が必要と認める場合は午後11時〜午前6時。",r:"法61条"},
+ {c:"年少者・妊産婦",q:"満18歳未満の者を解雇した場合、帰郷旅費が必要となるのは何日以内の帰郷か。",a:"解雇の日から14日以内",r:"法64条"},
+ {c:"年少者・妊産婦",q:"産前休業を請求できる期間は（単胎・多胎）。",a:"単胎6週間／多胎14週間",r:"法65条1項"},
+ {c:"年少者・妊産婦",q:"産後休業の期間と、就業させることができる例外は。",a:"8週間／本人が請求し医師が支障ないと認めた業務は6週間経過後",r:"法65条2項"},
+ {c:"年少者・妊産婦",q:"育児時間の対象となる子の年齢と、請求できる回数・時間は。",a:"生後満1年未満／1日2回・各々少なくとも30分",r:"法67条"},
+
+ // 就業規則・記録
+ {c:"就業規則・記録",q:"就業規則の作成・届出義務が生じる事業場の規模は。",a:"常時10人以上の労働者を使用する事業場",r:"法89条"},
+ {c:"就業規則・記録",q:"労働者名簿・賃金台帳等の記録の保存期間は（本則と当分の間の措置）。",a:"本則5年／当分の間3年",r:"法109条・附則143条"},
+ {c:"就業規則・記録",q:"減給の制裁の限度額は（1回あたり・総額）。",a:"1回の額は平均賃金の1日分の半額／総額は一賃金支払期の賃金総額の10分の1",r:"法91条"},
+
+ // 災害補償
+ {c:"災害補償",q:"休業補償の額は。",a:"平均賃金の100分の60",r:"法76条"},
+ {c:"災害補償",q:"遺族補償の額は。",a:"平均賃金の1000日分",r:"法79条"},
+ {c:"災害補償",q:"葬祭料の額は。",a:"平均賃金の60日分",r:"法80条"}
+];
+
+DATA.forEach((d,i)=>d.id="q"+i);
+document.getElementById("totalN").textContent = DATA.length;
+
+/* ---------- storage ---------- */
+const KEY="roukihou-drill-weak";
+function loadWeak(){
+  try{ return new Set(JSON.parse(localStorage.getItem(KEY)||"[]")); }
+  catch(e){ return new Set(); }
+}
+function saveWeak(s){
+  try{ localStorage.setItem(KEY, JSON.stringify([...s])); }catch(e){}
+}
+let weak = loadWeak();
+
+/* ---------- state ---------- */
+const CATS = [...new Set(DATA.map(d=>d.c))];
+let picked = new Set(CATS);
+let useWeak = false, useShuffle = true;
+let queue = [], cur = null, revealed = false;
+let ok = 0, hm = 0, total = 0;
+let missed = [];
+
+/* ---------- setup UI ---------- */
+const catsEl = document.getElementById("cats");
+CATS.forEach(c=>{
+  const b = document.createElement("button");
+  b.className = "chip"; b.setAttribute("aria-pressed","true");
+  b.innerHTML = c + '<small>' + DATA.filter(d=>d.c===c).length + '</small>';
+  b.onclick = ()=>{
+    if(picked.has(c) && picked.size===1) return;
+    picked.has(c) ? picked.delete(c) : picked.add(c);
+    b.setAttribute("aria-pressed", picked.has(c) ? "true":"false");
+  };
+  catsEl.appendChild(b);
+});
+const mWeak = document.getElementById("mWeak"), mShuffle = document.getElementById("mShuffle");
+mWeak.onclick = ()=>{ useWeak=!useWeak; mWeak.setAttribute("aria-pressed",useWeak?"true":"false"); };
+mShuffle.onclick = ()=>{ useShuffle=!useShuffle; mShuffle.setAttribute("aria-pressed",useShuffle?"true":"false"); };
+
+const setupEl = document.getElementById("setup");
+document.getElementById("btnSetup").onclick = ()=>{
+  setupEl.hidden = !setupEl.hidden;
+  document.getElementById("weakN").textContent = weak.size;
+};
+document.getElementById("btnApply").onclick = ()=>{ setupEl.hidden = true; start(); };
+
+/* ---------- engine ---------- */
+function start(){
+  let pool = DATA.filter(d=>picked.has(d.c));
+  if(useWeak) pool = pool.filter(d=>weak.has(d.id));
+  if(!pool.length){ pool = DATA.filter(d=>picked.has(d.c)); useWeak=false; mWeak.setAttribute("aria-pressed","false"); }
+  queue = pool.slice();
+  if(useShuffle) for(let i=queue.length-1;i>0;i--){ const j=Math.random()*(i+1)|0; [queue[i],queue[j]]=[queue[j],queue[i]]; }
+  ok=0; hm=0; total=queue.length; missed=[];
+  next();
+}
+function next(){
+  revealed = false;
+  cur = queue.shift() || null;
+  render();
+}
+function grade(good){
+  if(good){ ok++; weak.delete(cur.id); }
+  else{
+    hm++; weak.add(cur.id);
+    if(!missed.some(m=>m.id===cur.id)) missed.push(cur);
+    queue.splice(Math.min(4, queue.length), 0, cur); // 5問後に再出題
+  }
+  saveWeak(weak);
+  next();
+}
+
+/* ---------- render ---------- */
+const stage = document.getElementById("stage");
+const barI = document.querySelector("#bar i");
+
+function render(){
+  document.getElementById("cOk").textContent = ok;
+  document.getElementById("cHm").textContent = hm;
+  document.getElementById("cLeft").textContent = cur ? "のこり " + (queue.length+1) : "";
+  const done = ok + hm;
+  barI.style.width = total ? Math.min(100, ok / total * 100) + "%" : "0%";
+
+  if(!cur){ renderResult(); return; }
+
+  stage.innerHTML =
+    '<span class="cat">' + cur.c + '</span>' +
+    '<div class="card">' +
+      '<p class="q">' + cur.q + '</p>' +
+      '<div class="ansbox"' + (revealed ? '' : ' hidden') + '>' +
+        '<p><span class="a">' + cur.a + '</span></p>' +
+        (cur.n ? '<p class="note">' + cur.n + '</p>' : '') +
+        '<div class="ref">' + cur.r + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="controls">' +
+      (revealed
+        ? '<button class="btn btn-hm" data-act="hm">あやふや<kbd>2</kbd></button>' +
+          '<button class="btn btn-ok" data-act="ok">わかった<kbd>1</kbd></button>'
+        : '<button class="btn btn-main" data-act="show">答えを見る<kbd>SPACE</kbd></button>') +
+    '</div>' +
+    '<p class="hint">スペースで解答表示／1・2で自己採点</p>';
+
+  stage.querySelectorAll("[data-act]").forEach(b=>{
+    b.onclick = ()=>{
+      const a = b.dataset.act;
+      if(a === "show"){ revealed = true; render(); }
+      else grade(a === "ok");
+    };
+  });
+}
+
+function renderResult(){
+  const rate = total ? Math.round(ok / (ok + hm) * 100) : 0;
+  stage.innerHTML =
+    '<div class="result">' +
+      '<h2>' + (missed.length ? 'おつかれさまでした' : '全問クリア') + '</h2>' +
+      '<p class="sum">' + total + '問中 ' + missed.length + '問が「あやふや」でした。</p>' +
+      '<div class="score">' +
+        '<div class="ok"><span class="n">' + ok + '</span><span class="l">わかった</span></div>' +
+        '<div class="hm"><span class="n">' + hm + '</span><span class="l">あやふや（延べ）</span></div>' +
+        '<div><span class="n">' + rate + '%</span><span class="l">正答率</span></div>' +
+      '</div>' +
+      (missed.length
+        ? '<ul class="weaklist">' + missed.map(m=>'<li><b>' + m.q + '</b><span>' + m.a + '</span></li>').join('') + '</ul>'
+        : '<p style="margin:0 0 22px;color:var(--ink-2);font-size:14px;">この分野の数字要件はひととおり押さえられています。分野を広げて続けましょう。</p>') +
+      '<div class="controls">' +
+        '<button class="btn btn-ghost" data-r="all">同じ条件でもう一度</button>' +
+        (missed.length ? '<button class="btn btn-main" data-r="weak">あやふやだけ復習</button>' : '') +
+      '</div>' +
+    '</div>';
+
+  stage.querySelectorAll("[data-r]").forEach(b=>{
+    b.onclick = ()=>{
+      if(b.dataset.r === "weak"){ useWeak = true; mWeak.setAttribute("aria-pressed","true"); }
+      start();
+    };
+  });
+}
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown", e=>{
+  if(!cur) return;
+  if(e.key === " " || e.key === "Enter"){
+    e.preventDefault();
+    if(!revealed){ revealed = true; render(); }
+    else grade(true);
+  }
+  else if(e.key === "1"&& revealed){ grade(true); }
+  else if(e.key === "2"&& revealed){ grade(false); }
+});
+
+start();
+</script>
+</body>
+</html>
