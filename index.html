@@ -80,12 +80,11 @@
 }
 
 *{box-sizing:border-box;}
-html,body{height:100%;}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
   font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased;
-  display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;
 }
 button{font:inherit;color:inherit;cursor:pointer;border:none;background:none;}
 button:focus-visible,select:focus-visible{outline:2px solid var(--ai);outline-offset:2px;}
@@ -141,8 +140,8 @@ html:not([data-theme="light"]) .chip[aria-pressed="true"]{color:var(--bg);}
 
 /* ---- stage ---- */
 main{
-  flex:1;display:flex;align-items:center;justify-content:center;
-  padding:24px 18px;
+  flex:1;display:flex;align-items:flex-start;justify-content:center;
+  padding:clamp(20px,5.5vh,52px) 18px 28px;
 }
 .stage{width:100%;max-width:600px;}
 
@@ -244,10 +243,59 @@ html:not([data-theme="light"]) .btn-main,:root[data-theme="dark"] .btn-main{colo
 .btn-ghost:hover{border-color:var(--ai);color:var(--ai);}
 
 footer{
-  flex:none;padding:14px 18px 20px;text-align:center;
+  flex:none;padding:14px 18px 26px;text-align:center;
   font-size:11px;color:var(--ink-3);line-height:1.7;
 }
-</style></head>
+footer .links{margin-top:8px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+footer .links button,footer .links a{
+  font-size:11px;color:var(--ink-3);text-decoration:underline;
+  text-underline-offset:3px;padding:2px;
+}
+footer .links button:hover,footer .links a:hover{color:var(--ai);}
+
+/* ---- privacy dialog ---- */
+dialog{
+  border:1px solid var(--line);border-radius:8px;padding:0;
+  background:var(--surface);color:var(--ink);
+  max-width:540px;width:calc(100% - 32px);box-shadow:var(--shadow);
+}
+dialog::backdrop{background:rgba(10,13,20,.55);}
+.dlg-in{padding:28px 28px 24px;max-height:78vh;overflow-y:auto;}
+.dlg-in h2{
+  font-family:"Shippori Mincho",serif;font-size:19px;margin:0 0 16px;font-weight:700;
+}
+.dlg-in h3{
+  font-size:13.5px;font-weight:700;margin:20px 0 6px;color:var(--ai);
+}
+.dlg-in p,.dlg-in li{font-size:13.5px;line-height:1.85;color:var(--ink-2);margin:0 0 10px;}
+.dlg-in ul{padding-inline-start:1.2em;margin:0 0 10px;}
+.dlg-in a{color:var(--ai);}
+.dlg-close{
+  display:block;width:100%;margin-top:20px;padding:12px;
+  border:1px solid var(--line-2);border-radius:6px;
+  font-size:14px;font-weight:700;color:var(--ink-2);
+}
+.dlg-close:hover{border-color:var(--ai);color:var(--ai);}
+</style><script>
+  /* ============================================================
+     Google アナリティクス
+     測定IDを差し替えるときは、下の1行だけを書き換えます。
+     ID が未設定（XXXX を含む）の場合は、通信も送信も一切発生しません。
+     ============================================================ */
+  window.GA_ID = "G-58D9441ELB";
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  if (window.GA_ID && window.GA_ID.indexOf("XXXX") === -1) {
+    var gaS = document.createElement("script");
+    gaS.async = true;
+    gaS.src = "https://www.googletagmanager.com/gtag/js?id=" + window.GA_ID;
+    document.head.appendChild(gaS);
+    gtag("js", new Date());
+    gtag("config", window.GA_ID, { anonymize_ip: true });
+  }
+</script>
+</head>
 <body>
 <div id="bar"><i></i></div>
 
@@ -273,7 +321,39 @@ footer{
 
 <footer>
   自己採点式・全<span id="totalN"></span>問／2026年8月時点の条文にもとづく学習用教材です。実務判断は必ず条文と最新の通達をご確認ください。
+  <div class="links">
+    <button id="btnPrivacy">プライバシーについて</button>
+    <a href="https://github.com/sharochi/roukihou-drill" target="_blank" rel="noopener">ソース・改訂履歴</a>
+  </div>
 </footer>
+
+<dialog id="dlgPrivacy">
+  <div class="dlg-in">
+    <h2>プライバシーについて</h2>
+
+    <h3>学習データは端末の中だけに保存されます</h3>
+    <p>「あやふや」と記録した問題は、お使いのブラウザ内（ローカルストレージ）にのみ保存されます。サーバーへは送信されず、作者を含め誰も内容を見ることはできません。ブラウザの閲覧データを消去すると、この記録も消えます。</p>
+
+    <h3>アクセス解析について</h3>
+    <p>本サイトでは、利用状況の把握と教材の改善のため Google アナリティクスを利用しています。以下のような情報が匿名で収集されます。</p>
+    <ul>
+      <li>訪問日時、閲覧ページ、滞在時間</li>
+      <li>おおまかな地域、参照元、ブラウザ・端末の種類</li>
+      <li>アプリ内の操作（選択した分野、解いた問題数、どの問題が「あやふや」とされたか）</li>
+    </ul>
+    <p>これらは統計として扱われ、個人を特定できる情報は収集していません。氏名・メールアドレス・受験状況などを入力する項目は本サイトに存在しません。</p>
+
+    <h3>収集を望まない場合</h3>
+    <p>Google が提供する<a href="https://tools.google.com/dlpage/gaoptout?hl=ja" target="_blank" rel="noopener">オプトアウト アドオン</a>を導入するか、ブラウザのトラッキング防止機能をご利用ください。収集を無効にしても、本サイトの機能はすべてそのまま使えます。</p>
+
+    <h3>免責</h3>
+    <p>本サイトは学習用の教材であり、内容の正確性を保証するものではありません。法改正により内容が変わる場合があります。実務上の判断は、必ず条文および最新の通達をご確認ください。</p>
+
+    <p style="margin-top:18px;font-size:12.5px;">作成：ほっしぃ＠社労知</p>
+
+    <button class="dlg-close" id="btnPrivacyClose">閉じる</button>
+  </div>
+</dialog>
 
 <script>
 "use strict";
@@ -374,6 +454,12 @@ function saveWeak(s){
 }
 let weak = loadWeak();
 
+/* ---------- analytics ---------- */
+function track(name, params){
+  try{ if(typeof gtag === "function") gtag("event", name, params || {}); }catch(e){}
+}
+let seenHard = new Set();
+
 /* ---------- state ---------- */
 const CATS = [...new Set(DATA.map(d=>d.c))];
 let picked = new Set(CATS);
@@ -413,7 +499,13 @@ function start(){
   if(!pool.length){ pool = DATA.filter(d=>picked.has(d.c)); useWeak=false; mWeak.setAttribute("aria-pressed","false"); }
   queue = pool.slice();
   if(useShuffle) for(let i=queue.length-1;i>0;i--){ const j=Math.random()*(i+1)|0; [queue[i],queue[j]]=[queue[j],queue[i]]; }
-  ok=0; hm=0; total=queue.length; missed=[];
+  ok=0; hm=0; total=queue.length; missed=[]; seenHard = new Set();
+  track("drill_start", {
+    mode: useWeak ? "weak" : "all",
+    categories: [...picked].join("｜"),
+    category_count: picked.size,
+    questions: total
+  });
   next();
 }
 function next(){
@@ -427,8 +519,14 @@ function grade(good){
     hm++; weak.add(cur.id);
     if(!missed.some(m=>m.id===cur.id)) missed.push(cur);
     queue.splice(Math.min(4, queue.length), 0, cur); // 5問後に再出題
+    if(!seenHard.has(cur.id)){            // 1セッション1回だけ記録
+      seenHard.add(cur.id);
+      track("question_hard", { category: cur.c, question: cur.q.slice(0, 90) });
+    }
   }
   saveWeak(weak);
+  const done = ok + hm;
+  if(done === 10 || done === 25 || done === 50) track("drill_progress", { answered: done });
   next();
 }
 
@@ -474,6 +572,10 @@ function render(){
 
 function renderResult(){
   const rate = total ? Math.round(ok / (ok + hm) * 100) : 0;
+  track("drill_complete", {
+    questions: total, correct: ok, unsure: hm, rate: rate,
+    categories: [...picked].join("｜")
+  });
   stage.innerHTML =
     '<div class="result">' +
       '<h2>' + (missed.length ? 'おつかれさまでした' : '全問クリア') + '</h2>' +
@@ -494,15 +596,28 @@ function renderResult(){
 
   stage.querySelectorAll("[data-r]").forEach(b=>{
     b.onclick = ()=>{
-      if(b.dataset.r === "weak"){ useWeak = true; mWeak.setAttribute("aria-pressed","true"); }
+      if(b.dataset.r === "weak"){
+        useWeak = true; mWeak.setAttribute("aria-pressed","true");
+        track("review_weak", { questions: missed.length });
+      }
       start();
     };
   });
 }
 
+/* ---------- privacy dialog ---------- */
+const dlg = document.getElementById("dlgPrivacy");
+document.getElementById("btnPrivacy").onclick = ()=>{
+  track("view_privacy");
+  if(typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open","");
+};
+document.getElementById("btnPrivacyClose").onclick = ()=>{
+  if(typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open");
+};
+
 /* ---------- keyboard ---------- */
 document.addEventListener("keydown", e=>{
-  if(!cur) return;
+  if(!cur || dlg.open) return;
   if(e.key === " " || e.key === "Enter"){
     e.preventDefault();
     if(!revealed){ revealed = true; render(); }
