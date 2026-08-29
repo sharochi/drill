@@ -4,7 +4,7 @@
 
 「6時間を超える場合は45分」「平均賃金の1200日分」のように、条文の中でも数字は最後まで曖昧になりやすく、かつ本試験で最も点差がつく部分です。そこだけを切り出して、繰り返し当てられるようにしました。
 
-**▶ [ここで使う](https://USERNAME.github.io/roukihou-drill/)**
+**▶ [ここで使う]([https://USERNAME.github.io/roukihou-drill/](https://sharochi.github.io/roukihou-drill/))**
 
 ---
 
