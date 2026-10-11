@@ -252,6 +252,12 @@ footer .links button,footer .links a{
   text-underline-offset:3px;padding:2px;
 }
 footer .links button:hover,footer .links a:hover{color:var(--ai);}
+.result .after{
+  margin:22px auto 0;max-width:420px;padding:14px 16px;
+  border:1px solid var(--line);border-radius:12px;
+  font-size:12.5px;color:var(--ink-2);line-height:1.8;text-align:center;
+}
+.result .after a{color:var(--ai);text-decoration:underline;text-underline-offset:3px;font-weight:600;}
 
 /* ---- privacy dialog ---- */
 dialog{
@@ -325,6 +331,8 @@ dialog::backdrop{background:rgba(10,13,20,.55);}
   自己採点式・全<span id="totalN"></span>問／2026年10月時点の条文にもとづく学習用教材です。実務判断は必ず条文と最新の通達をご確認ください。
   <div class="links">
     <button id="btnPrivacy">プライバシーについて</button>
+    <a href="https://x.com/sharouchi_hoshi" target="_blank" rel="noopener" data-go="x">X @sharouchi_hoshi</a>
+    <a href="https://note.com/sharouchi_hoshi" target="_blank" rel="noopener" data-go="note">note</a>
     <a href="https://github.com/sharochi/drill" target="_blank" rel="noopener">ソース・改訂履歴</a>
   </div>
 </footer>
@@ -1173,7 +1181,17 @@ function renderResult(){
         '<button class="btn btn-ghost" data-r="all">同じ条件でもう一度</button>' +
         (missed.length ? '<button class="btn btn-main" data-r="weak">あやふやだけ復習</button>' : '') +
       '</div>' +
+      '<div class="after">' +
+        '毎朝7:30に1問ずつ、Xで【今日の数字】を出しています。<br>' +
+        '<a href="https://x.com/sharouchi_hoshi" target="_blank" rel="noopener" data-go="x">X @sharouchi_hoshi</a>' +
+        '　／　' +
+        '<a href="https://note.com/sharouchi_hoshi" target="_blank" rel="noopener" data-go="note">働く人向けの記事（note）</a>' +
+      '</div>' +
     '</div>';
+
+  stage.querySelectorAll("[data-go]").forEach(a=>{
+    a.addEventListener("click", ()=>track("outbound_click", { to: a.dataset.go, from: "result" }));
+  });
 
   stage.querySelectorAll("[data-r]").forEach(b=>{
     b.onclick = ()=>{
@@ -1209,6 +1227,10 @@ document.addEventListener("keydown", e=>{
 });
 
 start();
+
+document.querySelectorAll('footer [data-go]').forEach(function(a){
+  a.addEventListener('click', function(){ track('outbound_click', { to: a.dataset.go, from: 'footer' }); });
+});
 </script>
 </body>
 </html>

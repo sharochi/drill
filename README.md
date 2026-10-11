@@ -61,6 +61,6 @@
 
 ## 連絡先
 
-X: [@syarouch_hoshio](https://x.com/syarouch_hoshio)
+X: [@sharouchi_hoshi](https://x.com/sharouchi_hoshi)
 
 誤りの指摘、収録してほしい論点のリクエストは X までお願いします。
